@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анонимное сообщение</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            margin: 0;
+            padding: 20px;
+            color: #1a1a1a;
+        }
+        
+        .email-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .email-header {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 24px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .email-header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .email-body {
+            padding: 24px;
+        }
+        
+        .message-box {
+            background: rgba(241, 243, 245, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            font-size: 16px;
+            line-height: 1.6;
+            white-space: pre-line;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 16px;
+            color: #666;
+            font-size: 13px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .highlight {
+            font-weight: 700;
+            color: white;
+        }
+        
+        @media (max-width: 600px) {
+            .email-card {
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-card">
+        <div class="email-header">
+            <h1>✉️ Анонимное сообщение для <span class="highlight">{{ department }}</span></h1>
+        </div>
+        
+        <div class="email-body">
+            <p>🔒 Вам пришло новое анонимное сообщение:</p>
+            
+            <div class="message-box">
+                {{ message }}
+            </div>
+            
+            <p style="color: #666; font-size: 14px; margin-top: 20px;">
+                <em>Отправитель скрыт. Ответить на это сообщение невозможно.</em>
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>© {{ current_year }} Анонимный мессенджер | <a href="#" style="color: #4361ee; text-decoration: none;">Политика конфиденциальности</a></p>
+        </div>
+    </div>
+</body>
+</html>
