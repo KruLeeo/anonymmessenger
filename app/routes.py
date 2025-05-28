@@ -40,8 +40,6 @@ def load_forbidden_words():
         app.logger.error(f"Error loading forbidden words: {str(e)}")
         return set()
 
-
-# Проверка на запрещённые слова
 def contains_forbidden_words(text):
     if not text:
         return False
@@ -50,7 +48,6 @@ def contains_forbidden_words(text):
     if not forbidden_words:
         return False
     
-    # Ищем отдельные слова и части слов
     text_lower = text.lower()
     return any(word in text_lower for word in forbidden_words)
 
@@ -74,7 +71,6 @@ class MessageResource(Resource):
     def post(self):
         args = message_parser.parse_args()
         
-        # Проверка на запрещённые слова
         if contains_forbidden_words(args['message']):
             return {'error': 'Не ругайся'}, 400
             
@@ -83,13 +79,14 @@ class MessageResource(Resource):
             if not email:
                 return {'error': 'Department not found'}, 404
                 
-            msg = Message(
-                subject=f"Анонимное сообщение от мобильного приложения ({args.get('device_id', 'unknown')})",
-                recipients=[email],
-                body=f"Кафедра: {args['department']}\n\nСообщение:\n{args['message']}",
-                sender=app.config['MAIL_DEFAULT_SENDER']
+            send_email(
+                to=email,
+                subject=f"✉️ Анонимное сообщение для {args['department']}",
+                template="email_template.html",
+                department=args['department'],
+                message=args['message'],
+                device_info=f"Мобильное приложение ({args.get('device_id', 'unknown')})"
             )
-            mail.send(msg)
             return {'status': 'message sent'}, 200
             
         except Exception as e:
@@ -126,7 +123,6 @@ def index():
     
     return render_template('index.html', departments=app.config['DEPARTMENTS'].keys())
 
-# Регистрируем API только один раз!
 if not hasattr(app, '_api_registered'):
     api.add_resource(MessageResource, '/messages')
     app._api_registered = True
