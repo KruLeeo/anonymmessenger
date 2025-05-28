@@ -1,8 +1,10 @@
+from flask import Flask
+from flask_mail import Mail
 from flask_restful import Api
-from .resources import MessageResource
 
-api = Api()
+app = Flask(__name__)
+app.config.from_object('config.Config')
+mail = Mail(app)
+api = Api(app, prefix='/api/v1')
 
-def init_api(app):
-    api.add_resource(MessageResource, '/api/v1/messages')
-    api.init_app(app)
+from app import routes
