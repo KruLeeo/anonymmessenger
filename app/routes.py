@@ -48,8 +48,12 @@ def contains_forbidden_words(text):
     if not forbidden_words:
         return False
     
-    text_lower = text.lower()
-    return any(word in text_lower for word in forbidden_words)
+    # Нормализация текста - удаляем всё, кроме букв и цифр
+    text_normalized = re.sub(r'[^\w\s]', '', text.lower())
+    words_in_text = set(re.split(r'\s+', text_normalized))
+    
+    # Проверяем точное совпадение слов
+    return not words_in_text.isdisjoint(forbidden_words)
 
 def send_email(to, subject, template, **kwargs):
     kwargs['current_year'] = datetime.now().year

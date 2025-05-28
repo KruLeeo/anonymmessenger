@@ -22,7 +22,7 @@ class MessageResource(Resource):
             if not email:
                 return {'error': 'Department not found'}, 404
             msg = Message(
-                subject=f"Анонимное сообщение от мобильного приложения ({args.get('device_id', 'unknown')})",
+                subject=f"Анонимное сообщение от мобильного приложения",
                 recipients=[email],
                 body=f"Кафедра: {args['department']}\n\nСообщение:\n{args['message']}",
                 sender=app.config['MAIL_DEFAULT_SENDER']
